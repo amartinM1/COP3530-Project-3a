@@ -12,7 +12,7 @@ modify.pack(side=LEFT, fill=BOTH, expand=1)
 modify.focus_set()
 button = Button(Frm, text='Enter')
 button.pack(side=RIGHT)
-Frm.pack(side=TOP)
+Frm.pack(side=LEFT)
 # Dropdown menu options
 options = [
     "Monday",
