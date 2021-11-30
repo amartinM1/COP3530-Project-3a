@@ -17,8 +17,8 @@ class CSVReader():
                     print(f'{row["name"]}')
                     line_count += 1
 
-reader = CSVReader("steam.csv")
-reader.read_file()
+#reader = CSVReader("steam.csv")
+#reader.read_file()
 
 
 
