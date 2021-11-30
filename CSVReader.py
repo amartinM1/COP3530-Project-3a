@@ -13,6 +13,7 @@ class CSVReader:
             csv_reader = csv.DictReader(csv_file, delimiter=',')
             for row in csv_reader:  # each row is (value [delim] value [delim] etc...)
                 row["categories"] = row["categories"].split(';')
+                row["developer"] = row["developer"].split(';')
                 row["genres"] = row["genres"].split(';')
                 row["steamspy_tags"] = row["steamspy_tags"].split(';')
                 if '®' in row["name"] or '™' in row["name"]:
