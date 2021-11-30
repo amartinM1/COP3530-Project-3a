@@ -1,5 +1,7 @@
 import tkinter as tk
+import Game
 from tkinter import *
+
 # Main GUI object
 root = tk.Tk()
 Frm = Frame(root)
@@ -38,11 +40,11 @@ def show():
 
 def find():
     print(modify.get())
+    game = Game.Game(modify.get())
+    print(game.name)
 
 
 button2 = Button(root, text="Enter", command=show).pack(side=RIGHT)
 drop.pack(side=RIGHT)
 button.config(command=find)
 root.mainloop()
-
-
