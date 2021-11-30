@@ -45,7 +45,11 @@ def show():
 
 def find():
     game = reader.unorderedMap[modify.get()]
+    print(game.name)
     print(game.developer)
+    print(game.genres)
+    print(game.steamspy_tags)
+    print(game.categories)
 
 
 button2 = Button(root, text="Enter", command=show).pack(side=RIGHT)

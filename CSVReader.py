@@ -15,5 +15,8 @@ class CSVReader:
                 row["categories"] = row["categories"].split(';')
                 row["genres"] = row["genres"].split(';')
                 row["steamspy_tags"] = row["steamspy_tags"].split(';')
+                if '®' in row["name"] or '™' in row["name"]:
+                    row["name"] = row["name"].replace('®', '')
+                    row["name"] = row["name"].replace('™', '')
                 game = Game.Game(row["name"], row["developer"], row["categories"], row["genres"], row["steamspy_tags"])
                 self.unorderedMap[game.name] = game
