@@ -1,5 +1,6 @@
 import tkinter as tk
 import Game
+import CSVReader
 from tkinter import *
 
 # Main GUI object
@@ -32,6 +33,10 @@ clicked.set("Filter")
 drop = OptionMenu(root, clicked, *options)
 label = Label(root, text=" ")
 
+# Calls Reader
+reader = CSVReader.CSVReader("steam.csv")
+reader.read_file()
+
 
 def show():
     label.config(text=clicked.get())
@@ -39,9 +44,8 @@ def show():
 
 
 def find():
-    print(modify.get())
-    game = Game.Game(modify.get())
-    print(game.name)
+    game = reader.unorderedMap[modify.get()]
+    print(game.developer)
 
 
 button2 = Button(root, text="Enter", command=show).pack(side=RIGHT)
