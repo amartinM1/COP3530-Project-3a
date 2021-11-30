@@ -1,6 +1,7 @@
 import csv
 
-class CSVReader():
+
+class CSVReader:
     def __init__(self, file):
         self.file = file
 
@@ -17,8 +18,6 @@ class CSVReader():
                     print(f'{row["name"]}')
                     line_count += 1
 
+
 reader = CSVReader("steam.csv")
 reader.read_file()
-
-
-
