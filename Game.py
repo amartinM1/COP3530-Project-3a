@@ -16,3 +16,7 @@ class Game:
         print(self.steamspy_tags)
         print(self.categories)
         print(self.platforms)
+        if self.english == '1':
+            print("English supported.")
+        else:
+            print("English not supported.")
