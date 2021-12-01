@@ -36,6 +36,7 @@ label = Label(root, text=" ")
 # Calls Reader
 reader = CSVReader.CSVReader("steam.csv")
 reader.read_file()
+searched_game = Game.Game()
 
 
 def show():
@@ -44,12 +45,9 @@ def show():
 
 
 def find():
-    game = reader.unorderedMap[modify.get()]
-    print(game.name)
-    print(game.developer)
-    print(game.genres)
-    print(game.steamspy_tags)
-    print(game.categories)
+    global searched_game
+    searched_game = reader.unorderedMap[modify.get()]
+    searched_game.print()
 
 
 button2 = Button(root, text="Enter", command=show).pack(side=RIGHT)
