@@ -13,6 +13,7 @@ def find():
     global searched_game
     searched_game = reader.unorderedMap[modify.get()]
     searched_game.print()
+    print(reader.tags_map["Fantasy"])
 
 
 # Main GUI object

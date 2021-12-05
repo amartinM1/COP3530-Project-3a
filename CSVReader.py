@@ -4,6 +4,7 @@ import Game
 
 class CSVReader:
     unorderedMap = {}
+    tags_map = {}
 
     def __init__(self, file):
         self.file = file
@@ -23,3 +24,7 @@ class CSVReader:
                 game = Game.Game(row["name"], row["developer"], row["categories"], row["genres"], row["steamspy_tags"],
                                  row["english"], row["platforms"])
                 self.unorderedMap[game.name] = game
+                for key in game.steamspy_tags:
+                    if key not in self.tags_map:
+                        self.tags_map[key] = list()
+                    self.tags_map[key].append(game.name)
