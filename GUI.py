@@ -3,6 +3,19 @@ import Game
 import CSVReader
 from tkinter import *
 
+
+def show():
+    label.config(text=clicked.get())
+    print(clicked.get())
+
+
+def find():
+    global searched_game
+    searched_game = reader.unorderedMap[modify.get()]
+    searched_game.print()
+    print(reader.tags_map["Fantasy"])
+
+
 # Main GUI object
 root = tk.Tk()
 Frm = Frame(root)
@@ -37,18 +50,6 @@ label = Label(root, text=" ")
 reader = CSVReader.CSVReader("steam.csv")
 reader.read_file()
 searched_game = Game.Game()
-
-
-def show():
-    label.config(text=clicked.get())
-    print(clicked.get())
-
-
-def find():
-    global searched_game
-    searched_game = reader.unorderedMap[modify.get()]
-    searched_game.print()
-
 
 button2 = Button(root, text="Enter", command=show).pack(side=RIGHT)
 drop.pack(side=RIGHT)
