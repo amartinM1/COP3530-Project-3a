@@ -21,3 +21,4 @@ class CSVReader:
                     row["name"] = row["name"].replace('™', '')
                 game = Game.Game(row["name"], row["developer"], row["categories"], row["genres"], row["steamspy_tags"])
                 self.unorderedMap[game.name] = game
+
