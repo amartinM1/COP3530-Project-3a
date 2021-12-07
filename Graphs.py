@@ -26,7 +26,7 @@ class Adjlist:
                 print(key, "is already a vertex in the graph")
             else:
                 self.count += 1
-                self.dict[key] = list()
+                self.dict[key] = [tuple()]
 
     def edge(self):
 
@@ -34,12 +34,16 @@ class Adjlist:
             weight = 0
             temp = parser.unorderedMap[key]
             for tag in temp.steamspy_tags:
-                for x in temp.tags_map[tag]:
-
-                    if x not in self.dict[key]:
-                        temp_tuple = (x, weight)
-                        self.dict[key].append[temp_tuple]
-                    if x in self.dict[key]:
-                        weight = weight + 1
-                        temp_tuple = (x, weight)
-                        self.dict[key].append[temp_tuple]
+                for x in parser.tags_map[tag]:
+                    # create a variable that represents  a list of the first variables in the tuple
+                    # [item for item in a if item[0] == 1]
+                    temp_list = self.dict[key]
+                    for i in temp_list:
+                        if x not in i[0]:
+                            temp_tuple = (x, weight)
+                            # gamename=temp_tuple[0]
+                            temp_list.append[temp_tuple]
+                        if x in i[0]:
+                            weight = weight + 1
+                            # temp_tuple = (x, weight)
+                            i[1] = weight
