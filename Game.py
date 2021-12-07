@@ -20,3 +20,6 @@ class Game:
             print("English supported.")
         else:
             print("English not supported.")
+
+    def get_tags(self):
+        return self.steamspy_tags
