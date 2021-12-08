@@ -30,10 +30,10 @@ class Adjlist:
                 for curr_title in self.parser.tags_map[tag]:
                     weight = 1
 
-                    if curr_title not in relevant_games:
+                    if curr_title not in relevant_games and curr_title != this_game.name:
                         relevant_games[curr_title] = weight
 
-                    else:
+                    elif curr_title in relevant_games:
                         relevant_games[curr_title] = relevant_games[curr_title] + 1
 
             adj_vertices = []
