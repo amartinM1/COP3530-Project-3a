@@ -23,3 +23,6 @@ class Game:
 
     def get_tags(self):
         return self.steamspy_tags
+
+    def get_categories(self):
+        return self.categories

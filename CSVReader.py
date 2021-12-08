@@ -1,9 +1,10 @@
 import csv
 import Game
+from typing import Dict
 
 
 class CSVReader:
-    unorderedMap = {}  # Game objects stored by title
+    unordered_map: Dict[str, Game.Game] = {}  # Game objects stored by title
     tags_map = {}  # Game titles stored by steamspy_tags
 
     def __init__(self, file):
@@ -23,8 +24,11 @@ class CSVReader:
                     row["name"] = row["name"].replace('™', '')
                 game = Game.Game(row["name"], row["developer"], row["categories"], row["genres"], row["steamspy_tags"],
                                  row["english"], row["platforms"])
-                self.unorderedMap[game.name] = game
+                self.unordered_map[game.name] = game
                 for key in game.steamspy_tags:
                     if key not in self.tags_map:
                         self.tags_map[key] = list()
                     self.tags_map[key].append(game.name) # what is this
+
+    def get_unordmap(self):
+        return self.unordered_map
