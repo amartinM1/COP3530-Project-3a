@@ -36,7 +36,6 @@ class Adjlist:
                     if curr_title in relevant_games:
                         relevant_games[curr_title] = relevant_games[curr_title] + 1
 
-        # loop through the steamspy_tags of the game and create a set that has the union of all the steamspy tags
         # loop through the union set and at each game, calculate the similarity score and push it into a heapq (
         # minheap) of tuples (tuples being name, weight) if the heapq (minheap) has more than k elements, delete the
         # largest element push the finished heapq into a dicitonary of heapqs with the game title as key
@@ -99,7 +98,7 @@ class Adjlist:
 
         if game_numplatforms < comparison_numplatforms:
             for platform in this_game.platforms:
-                if platform in comparison.platforms
+                if platform in comparison.platforms:
                     compatible = True
         else:
             for platform in comparison.platforms:
