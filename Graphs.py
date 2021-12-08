@@ -10,6 +10,8 @@ class Adjlist:
     parser = CSVReader.CSVReader("steam.csv")
     parser.read_file()
 
+    adj_list: Dict[str, heapq] = {}
+
     # constructor
     def __init__(self, _dict={}, _count=0, fro='', to=''):
         self.dict = _dict
@@ -22,7 +24,7 @@ class Adjlist:
         for key in self.parser.unordered_map.keys():
             this_game =  self.parser.unordered_map[key] # dictionary value isn't immediately translated to Game() object
 
-            relevant_games = {}
+            relevant_games: Dict[str, int] = {}
             # loop through the steamspy_tags of the game and create a dictionary (relevant_games) that has the union
             # of all the steamspy tags
             for tag in this_game.steamspy_tags:
@@ -36,13 +38,13 @@ class Adjlist:
                     if curr_title in relevant_games:
                         relevant_games[curr_title] = relevant_games[curr_title] + 1
 
+
         # loop through the union set and at each game, calculate the similarity score and push it into a heapq (
         # minheap) of tuples (tuples being name, weight) if the heapq (minheap) has more than k elements, delete the
         # largest element push the finished heapq into a dicitonary of heapqs with the game title as key
         # reccomendations[title] = heapq
 
-    def calculate_weight(self, this_game, curr_title: str, initial_weight):
-        weight = 0
+    def calculate_weight(self, this_game, curr_title: str, weight):
         comparison = self.parser.unordered_map[curr_title]
 
         #  compare categories
@@ -106,7 +108,14 @@ class Adjlist:
                     compatible = True
 
         # if not compatible, cannot be adjacent
+        if not compatible:
+            weight = 1
 
-        # check for initial_weight + weight <= 0
+        # check if weight <= 0
+        if weight <= 0:
+            weight = 1
 
+        print(f"Weight of {this_game.name} to {curr_title} is {weight}")
         return weight
+
+
