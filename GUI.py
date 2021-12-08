@@ -55,4 +55,3 @@ button2 = Button(root, text="Enter", command=show).pack(side=RIGHT)
 drop.pack(side=RIGHT)
 button.config(command=find)
 root.mainloop()
-
