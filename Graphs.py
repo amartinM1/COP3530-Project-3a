@@ -1,5 +1,6 @@
 import CSVReader
 import Game
+import heapq
 
 
 class Adjlist:
@@ -9,7 +10,6 @@ class Adjlist:
     global vert
     parser = CSVReader.CSVReader("steam.csv")
     parser.read_file()
-    obj = Game.Game()
 
     # constructor
     def __init__(self, _dict={}, _count=0, fro='', to=''):
@@ -50,6 +50,21 @@ class Adjlist:
 
     def createGraph(self):
         #  iterate through each game in the unordered_map
+        for key in parser.unorderedMap.keys():
+            game = parser.unorderedMap[key]
+            relevant_games = {}
+            #  loop through the steamspy_tags of the game and create a set (relevant_games) that has the union of all the steamspy tags
+            for tag in game.steamspy_tags:
+                for curr_title in parser.tags_map[tag]:
+                    weight = 0
+
+                    if curr_title not in relevant_games:
+                        relevant_games[curr_title] = weight
+
+                    if curr_title in relevant_games:
+                        relevant_games[curr_title] = relevant_games[curr_title] + 1
+
+
         #  loop through the steamspy_tags of the game and create a set that has the union of all the steamspy tags
         #  loop through the union set and at each game, calculate the similarity score and push it into a heapq (minheap) of tuples (tuples being name, weight)
         #  if the heapq (minheap) has more than k elements, delete the largest element

@@ -27,4 +27,4 @@ class CSVReader:
                 for key in game.steamspy_tags:
                     if key not in self.tags_map:
                         self.tags_map[key] = list()
-                    self.tags_map[key].append(game.name)
+                    self.tags_map[key].append(game.name) # what is this
