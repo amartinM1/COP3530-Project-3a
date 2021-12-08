@@ -30,7 +30,7 @@ class Adjlist:
                     weight = 1
 
                     if curr_title not in relevant_games:
-                        weight += self.calculate_weight(this_game, curr_title, weight)
+                        weight = self.calculate_weight(this_game, curr_title, weight)
                         relevant_games[curr_title] = weight
 
                     if curr_title in relevant_games:
