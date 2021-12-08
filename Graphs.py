@@ -45,7 +45,7 @@ class Adjlist:
                 curr_tuple = (relevant_games[game_key], game_key)
                 adj_vertices.append(curr_tuple)
                 adj_vertices.sort()
-                if len(adj_vertices) > 5:
+                if len(adj_vertices) > 10:
                     adj_vertices.pop()
 
                 # print(adj_vertices)
@@ -157,14 +157,28 @@ class Adjlist:
                 curr_tuple = (relevant_games[game_key], game_key)
                 adj_vertices.append(curr_tuple)
                 adj_vertices.sort()
-                if len(adj_vertices) > 5:
+                if len(adj_vertices) > 10:
                     adj_vertices.pop()
 
                 # print(adj_vertices)
 
             self.adj_list[search_term] = adj_vertices
+            return True
+
+        return False
 
         # loop through the union set and at each game, calculate the similarity score and push it into a heapq (
         # minheap) of tuples (tuples being name, weight) if the heapq (minheap) has more than k elements, delete the
         # largest element push the finished heapq into a dicitonary of heapqs with the game title as key
         # reccomendations[title] = heapq
+
+    def disjktra(self, src: str, dest: str):
+        if src in self.parser.unordered_map.keys() and dest in self.parser.unordered_map.keys():
+            shortestPath = set()
+
+            distances: Dict[str, float] = {}
+            for key in self.parser.unordered_map.keys():
+                distances[key] = float("inf")
+        else:
+            print("unsuccessful")
+
