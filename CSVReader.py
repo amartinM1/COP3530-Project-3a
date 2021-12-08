@@ -3,8 +3,8 @@ import Game
 
 
 class CSVReader:
-    unorderedMap = {}
-    tags_map = {}
+    unorderedMap = {}  # Game objects stored by title
+    tags_map = {}  # Game titles stored by steamspy_tags
 
     def __init__(self, file):
         self.file = file
