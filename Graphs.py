@@ -51,7 +51,7 @@ class Adjlist:
     def createGraph(self):
         #  iterate through each game in the unordered_map
         #  loop through the steamspy_tags of the game and create a set that has the union of all the steamspy tags
-        #  loop through the union set and at each game, calculate the similarity score and push it into a heapq (minheap)
+        #  loop through the union set and at each game, calculate the similarity score and push it into a heapq (minheap) of tuples (tuples being name, weight)
         #  if the heapq (minheap) has more than k elements, delete the largest element
-        #  push the finished heapq into a dicitonary of heapqs with the game title as key reccomendations[title] =heapq
+        #  push the finished heapq into a dicitonary of heapqs with the game title as key reccomendations[title]  =heapq
 
