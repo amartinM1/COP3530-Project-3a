@@ -1,6 +1,8 @@
 import CSVReader
 import Game
 import heapq
+from typing import Dict
+
 
 
 class Adjlist:
@@ -63,10 +65,48 @@ class Adjlist:
                     weight -= 1
 
         #  compare genres
+        game_numgenres = len(this_game.genres)
+        print(f'{this_game.name} has {game_numgenres} genre(s)')
+        comparison_numgenres = len(comparison.genres)
+        print(f'{comparison.name} has {comparison_numgenres} genre(s)')
+
+        if game_numgenres > comparison_numgenres:
+            for genre in this_game.genres:
+                if genre in comparison.genres:
+                    weight += 1
+                else:
+                    weight -= 1
+
+        else:
+            for genre in comparison.genres:
+                if genre in this_game.genres:
+                    weight += 1
+                else:
+                    weight -= 1
 
         #  compare English support
+        if this_game.english == comparison.english:
+            weight += 1
+
+        if this_game.english != comparison.english:
+            weight -= 1
 
         #  compare platforms
+        game_numplatforms = len(this_game.platforms)
+        comparison_numplatforms = len(comparison.platforms)
+
+        compatible = False
+
+        if game_numplatforms < comparison_numplatforms:
+            for platform in this_game.platforms:
+                if platform in comparison.platforms
+                    compatible = True
+        else:
+            for platform in comparison.platforms:
+                if platform in this_game.platforms:
+                    compatible = True
+
+        # if not compatible, cannot be adjacent
 
         # check for initial_weight + weight <= 0
 
