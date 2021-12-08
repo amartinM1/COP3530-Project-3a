@@ -4,13 +4,12 @@ import heapq
 from typing import Dict
 
 
-
 class Adjlist:
     #  calls reader to populate dictionary
     parser = CSVReader.CSVReader("steam.csv")
     parser.read_file()
 
-    adj_list: Dict[str, heapq] = {}
+    adj_list: Dict[str, list] = {}
 
     # constructor
     def __init__(self, _dict={}, _count=0, fro='', to=''):
@@ -22,9 +21,9 @@ class Adjlist:
     def create_graph(self):
         #  iterate through each game in the unordered_map
         for key in self.parser.unordered_map.keys():
-            this_game =  self.parser.unordered_map[key] # dictionary value isn't immediately translated to Game() object
+            this_game = self.parser.unordered_map[key]  # dictionary value isn't immediately translated to Game() object
 
-            relevant_games: Dict[str, int] = {}
+            relevant_games: Dict[str, float] = {}
             # loop through the steamspy_tags of the game and create a dictionary (relevant_games) that has the union
             # of all the steamspy tags
             for tag in this_game.steamspy_tags:
@@ -32,11 +31,25 @@ class Adjlist:
                     weight = 1
 
                     if curr_title not in relevant_games:
-                        weight = self.calculate_weight(this_game, curr_title, weight)
                         relevant_games[curr_title] = weight
 
-                    if curr_title in relevant_games:
+                    else:
                         relevant_games[curr_title] = relevant_games[curr_title] + 1
+
+            adj_vertices = []
+            for game_key in relevant_games.keys():
+
+                relevant_games[game_key] = self.calculate_weight(this_game, game_key, relevant_games[game_key])
+                relevant_games[game_key] = 1 / relevant_games[game_key]
+
+                curr_tuple = (relevant_games[game_key], game_key)
+                adj_vertices.append(curr_tuple)
+                adj_vertices.sort()
+                if len(adj_vertices) > 5:
+                    adj_vertices.pop()
+
+                print(f'Weight from {this_game.name} to {game_key} is {relevant_games[game_key]}')
+                print(adj_vertices)
 
 
         # loop through the union set and at each game, calculate the similarity score and push it into a heapq (
@@ -67,9 +80,9 @@ class Adjlist:
 
         #  compare genres
         game_numgenres = len(this_game.genres)
-        print(f'{this_game.name} has {game_numgenres} genre(s)')
+        # print(f'{this_game.name} has {game_numgenres} genre(s)')
         comparison_numgenres = len(comparison.genres)
-        print(f'{comparison.name} has {comparison_numgenres} genre(s)')
+        # print(f'{comparison.name} has {comparison_numgenres} genre(s)')
 
         if game_numgenres > comparison_numgenres:
             for genre in this_game.genres:
@@ -115,7 +128,4 @@ class Adjlist:
         if weight <= 0:
             weight = 1
 
-        print(f"Weight of {this_game.name} to {curr_title} is {weight}")
         return weight
-
-
