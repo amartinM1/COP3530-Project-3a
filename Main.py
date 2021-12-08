@@ -3,6 +3,7 @@ import Game
 from Game import Game
 from CSVReader import CSVReader
 
+
 def game_info(title):
     if title in reader.unorderedMap:
         game = reader.unorderedMap[title]
@@ -12,11 +13,6 @@ def game_info(title):
         print(f'\nTags:')
         for tag in tags:
             print(f'{tag}: {reader.tags_map[tag]}')
-
-
-
-
-
 
 
 reader = CSVReader("steam.csv")
