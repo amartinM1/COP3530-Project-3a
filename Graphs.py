@@ -244,3 +244,13 @@ class Adjlist:
         else:
             print("unsuccessful")
 
+    def bellman_ford(self, src: str, dest: str):
+        if src in self.parser.unordered_map.keys() and dest in self.parser.unordered_map.keys():
+            distance: Dict[str, float] = {}
+            for key in self.parser.unordered_map.keys():
+                distance[key] = float("inf")
+            distance[src] = 0
+        predecessor: Dict[str, str] = {}
+        for key in self.parser.unordered_map.keys():
+            predecessor[key] = "-1"
+
