@@ -1,7 +1,10 @@
+import pickle
 import tkinter as tk
 import Game
 import CSVReader
 from tkinter import *
+
+import Graphs
 
 
 def show():
@@ -12,8 +15,15 @@ def show():
 def find():
     global searched_game
     searched_game = reader.unordered_map[modify.get()]
-    searched_game.print()
-    print(reader.tags_map["Fantasy"])
+    # full_graph = Graphs.Adjlist()
+    # full_graph.create_graph()
+    # a_file = open("full_graph.pkl", "wb")
+    # pickle.dump(full_graph.adj_list, a_file)
+    # a_file.close()
+    a_file = open("full_graph.pkl", "rb")
+    output = pickle.load(a_file)
+    print(output[modify.get()])
+    a_file.close()
 
 
 # Main GUI object
