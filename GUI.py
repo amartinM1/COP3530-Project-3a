@@ -37,21 +37,21 @@ def find():
     global Bellman_Ford
     if search is True:
         global searched_game
-        searched_game = reader.unordered_map[modify.get()]
-        # full_graph = Graphs.Adjlist()
-        # full_graph.create_graph()
-        # a_file = open("full_graph.pkl", "wb")
-        # pickle.dump(full_graph.adj_list, a_file)
-        # a_file.close()
+        searched_title = modify.get()
+
         a_file = open("full_graph1.pkl", "rb")
-        full_graph = pickle.load(a_file)
+        full_graph = Graphs.Adjlist()
+        full_graph.adj_list = pickle.load(a_file)
         a_file.close()
-        print(full_graph[modify.get()])
+
+        print(full_graph.adj_list[searched_title])
+
         top_games: list
-        top_games = full_graph[searched_game.name]
+        top_games = full_graph.adj_list[searched_title]
         for edge in top_games:
-            text.insert(tk.END, edge[1])
-            text.insert(tk.END, '\n')
+            text.insert(tk.END, edge[1] + "  [weight = ")
+            text.insert(tk.END, edge[0])
+            text.insert(tk.END, ']\n\n')
     elif Dikstras is True:
         text.insert(tk.END, "Running Dikstra's Algorithm")
     elif Bellman_Ford is True:
@@ -90,7 +90,7 @@ label = Label(root, text=" ")
 reader = CSVReader.CSVReader("steam.csv")
 reader.read_file()
 searched_game = Game.Game()
-text = Text(canvas, height=20, width=70, yscrollcommand=True, bg="#263D42", fg="white")
+text = Text(canvas, height=40, width=140, yscrollcommand=True, bg="#263D42", fg="white")
 text.pack()
 button2 = Button(root, text="Enter", command=show).pack(side=RIGHT)
 drop.pack(side=RIGHT)

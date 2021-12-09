@@ -124,4 +124,3 @@ while is_running:
 
     else:
         is_running = False
-
