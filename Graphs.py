@@ -1,7 +1,8 @@
 import CSVReader
 import Game
 import heapq
-from typing import Dict
+from heapq import heappush, heappop
+from typing import Dict, List
 
 
 class Adjlist:
@@ -20,6 +21,7 @@ class Adjlist:
 
     def create_graph(self):
         #  iterate through each game in the unordered_map
+        curr_insertion = 1
         for key in self.parser.unordered_map.keys():
             this_game = self.parser.unordered_map[key]  # dictionary value isn't immediately translated to Game() object
 
@@ -48,9 +50,15 @@ class Adjlist:
                 if len(adj_vertices) > 10:
                     adj_vertices.pop()
 
-                # print(adj_vertices)
+            # pare down adj_vertices to 10
+            # adj_vertices.sort()
+            # adj_vertices = adj_vertices[:10]
 
+            # insert finished neighbor vertices
             self.adj_list[key] = adj_vertices
+            if curr_insertion % 100 == 0:
+                print(f'added game #{curr_insertion}')
+            curr_insertion += 1
 
         # loop through the union set and at each game, calculate the similarity score and push it into a heapq (
         # minheap) of tuples (tuples being name, weight) if the heapq (minheap) has more than k elements, delete the
@@ -133,7 +141,7 @@ class Adjlist:
     def create_minigraph(self, search_term: str):
         #  iterate through each game in the unordered_map
         if search_term in self.parser.unordered_map.keys():
-            this_game = self.parser.unordered_map[search_term]  # dictionary value isn't immediately translated to Game() object
+            this_game = self.parser.unordered_map[search_term] # dictionary value isn't immediately translated to Game() object
 
             relevant_games: Dict[str, float] = {}
             # loop through the steamspy_tags of the game and create a dictionary (relevant_games) that has the union
@@ -168,17 +176,71 @@ class Adjlist:
         return False
 
         # loop through the union set and at each game, calculate the similarity score and push it into a heapq (
-        # minheap) of tuples (tuples being name, weight) if the heapq (minheap) has more than k elements, delete the
+        # minHeap) of tuples (tuples being name, weight) if the heapq (minheap) has more than k elements, delete the
         # largest element push the finished heapq into a dicitonary of heapqs with the game title as key
-        # reccomendations[title] = heapq
+        # reco,mendations[title] = heapq
 
-    def disjktra(self, src: str, dest: str):
+    # Don't use. Strictly used in multithreading attempt, which doesn't speed up anything
+    def create_subgraph(self, keys: List[str]):
+        #  iterate through each game in the unordered_map
+        curr_insertion = 1
+        for key in keys:
+            this_game = self.parser.unordered_map[key] # dictionary value isn't immediately translated to Game() object
+
+            relevant_games: Dict[str, float] = {}
+            # loop through the steamspy_tags of the game and create a dictionary (relevant_games) that has the union
+            # of all the steamspy tags
+            for tag in this_game.steamspy_tags:
+                for curr_title in self.parser.tags_map[tag]:
+                    weight = 1
+
+                    if curr_title not in relevant_games and curr_title != this_game.name:
+                        relevant_games[curr_title] = weight
+
+                    elif curr_title in relevant_games:
+                        relevant_games[curr_title] = relevant_games[curr_title] + 1
+
+            adj_vertices = []
+            for game_key in relevant_games.keys():
+
+                relevant_games[game_key] = self.calculate_weight(this_game, game_key, relevant_games[game_key])
+                relevant_games[game_key] = 1 / relevant_games[game_key]
+
+                curr_tuple = (relevant_games[game_key], game_key)
+                adj_vertices.append(curr_tuple)
+                adj_vertices.sort()
+                if len(adj_vertices) > 10:
+                    adj_vertices.pop()
+
+                # print(adj_vertices)
+
+            self.adj_list[key] = adj_vertices
+            if curr_insertion % 500 == 0:
+                print(f'added game #{curr_insertion}')
+            curr_insertion += 1
+
+        # loop through the union set and at each game, calculate the similarity score and push it into a heapq (
+        # minHeap) of tuples (tuples being name, weight) if the heapq (minheap) has more than k elements, delete the
+        # largest element push the finished heapq into a dicitonary of heapqs with the game title as key
+        # reco,mendations[title] = heapq
+
+    def dijkstra(self, src: str, dest: str):
         if src in self.parser.unordered_map.keys() and dest in self.parser.unordered_map.keys():
-            shortestPath = set()
+            shortestPath = set()  # shortest path, will return this
 
+            # initialize map of distances
             distances: Dict[str, float] = {}
             for key in self.parser.unordered_map.keys():
                 distances[key] = float("inf")
+            distances[src] = 0
+
+            # initialize minHeap priority queue
+            pq: List[tuple] = []
+            heappush(pq, tuple((0, src)))
+
+            while len(pq) != 0:
+                curr_vertex = heappop(pq)[1]
+
         else:
             print("unsuccessful")
 

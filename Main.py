@@ -1,12 +1,42 @@
 import CSVReader
 import Game
 import Graphs
+import threading
 from Game import Game
+from typing import List
 from CSVReader import CSVReader
 
 
 testGraph = Graphs.Adjlist()
 is_running: bool = True
+
+# numKeys = len(testGraph.parser.unordered_map)
+# keys_1: List[str] = []
+# keys_2: List[str] = []
+# keys_3: List[str] = []
+#
+# curr_key = 1
+# for key in testGraph.parser.unordered_map.keys():
+#     if curr_key <= numKeys / 3:
+#         keys_1.append(key)
+#     elif curr_key <= 2 * (numKeys / 3):
+#         keys_2.append(key)
+#     else:
+#         keys_3.append(key)
+#     curr_key += 1
+#
+# t1 = threading.Thread(target=testGraph.create_subgraph, args=(keys_1,))
+# t2 = threading.Thread(target=testGraph.create_subgraph, args=(keys_2,))
+# t3 = threading.Thread(target=testGraph.create_subgraph, args=(keys_3,))
+#
+#
+# t1.start()
+# t2.start()
+# t3.start()
+#
+# t1.join()
+# t2.join()
+# t3.join()
 
 print("Welcome to QuestSeeker!")
 mode: str = ""
@@ -71,7 +101,7 @@ while is_running:
                     response: str = input()
                     dest: str = response
 
-                    testGraph.disjktra(src, dest)
+                    testGraph.dijkstra(src, dest)
 
                 if mode == "Bellman-Ford":
                     print("We're working on implementing Bellman-Ford. Check back soon!\n")
