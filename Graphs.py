@@ -1,6 +1,7 @@
 import CSVReader
 import Game
 import heapq
+import time
 from heapq import heappush, heappop
 from typing import Dict, List
 
@@ -11,13 +12,6 @@ class Adjlist:
     parser.read_file()
 
     adj_list: Dict[str, list] = {}
-
-    # constructor
-    def __init__(self, _dict={}, _count=0, fro='', to=''):
-        self.dict = _dict
-        self.count = _count
-        self.fro = fro
-        self.to = to
 
     def create_graph(self):
         #  iterate through each game in the unordered_map
@@ -225,22 +219,51 @@ class Adjlist:
         # reco,mendations[title] = heapq
 
     def dijkstra(self, src: str, dest: str):
+        start_time = time.time()
         if src in self.parser.unordered_map.keys() and dest in self.parser.unordered_map.keys():
-            shortestPath = set()  # shortest path, will return this
+            if src != dest:
+                shortest_path = []  # shortest path, will return this
 
-            # initialize map of distances
-            distances: Dict[str, float] = {}
-            for key in self.parser.unordered_map.keys():
-                distances[key] = float("inf")
-            distances[src] = 0
+                # initialize map of distances
+                distances: Dict[str, float] = {}
+                for key in self.parser.unordered_map.keys():
+                    distances[key] = float("inf")
+                distances[src] = 0
 
-            # initialize minHeap priority queue
-            pq: List[tuple] = []
-            heappush(pq, tuple((0, src)))
+                # initialize map of previous vertices
+                predecessors: Dict[str, str] = {}
+                for key in self.parser.unordered_map.keys():
+                    predecessors[key] = "-1"
 
-            while len(pq) != 0:
-                curr_vertex = heappop(pq)[1]
+                # initialize minHeap priority queue
+                pq: List[tuple] = []
+                heappush(pq, tuple((0, src)))
 
+                while len(pq) != 0:
+                    curr_vertex = heappop(pq)[1]
+
+                    for neighbor in self.adj_list[curr_vertex]:
+                        w: float = neighbor[0]
+                        neighbor_name: str = neighbor[1]
+                        if distances[curr_vertex] + w < distances[neighbor_name]:
+                            distances[neighbor_name] = distances[curr_vertex] + w
+                            predecessors[neighbor_name] = curr_vertex
+                            heappush(pq, tuple((distances[neighbor_name], neighbor_name)))
+
+                curr = dest
+                shortest_path.append(curr)
+                while curr != src and curr != "-1":
+                    curr = predecessors[curr]
+                    shortest_path.append(curr)
+                if curr == "-1":
+                    print(f'No possible path between {src} and {dest}')
+                else:
+                    print(shortest_path[::-1])
+                    print(f'Weight of path = {distances[dest]}')
+                    end_time = time.time()
+                    print(f'Took {end_time - start_time} seconds')
+            else:
+                print ("unsuccessful")
         else:
             print("unsuccessful")
 

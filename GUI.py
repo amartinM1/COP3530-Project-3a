@@ -81,7 +81,7 @@ options = [
 ]
 # datatype of menu text
 clicked = StringVar()
-clicked.set("Filter")
+clicked.set("Mode")
 # Create Dropdown menu
 drop = OptionMenu(root, clicked, *options)
 label = Label(root, text=" ")
