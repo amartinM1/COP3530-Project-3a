@@ -1,6 +1,7 @@
 import CSVReader
 import Game
 import Graphs
+import pickle
 import threading
 from Game import Game
 from typing import List
@@ -9,6 +10,19 @@ from CSVReader import CSVReader
 
 testGraph = Graphs.Adjlist()
 is_running: bool = True
+
+
+a_file = open("full_graph1.pkl", "rb")
+full_graph = Graphs.Adjlist()
+full_graph.adj_list = pickle.load(a_file)
+a_file.close()
+# full_graph.create_graph()
+# a_file = open("full_graph1.pkl", "wb")
+# pickle.dump(full_graph.adj_list, a_file)
+# a_file.close()
+
+# for key in full_graph.adj_list.keys():
+#      print(f'{key}: {full_graph.adj_list[key]}')
 
 # numKeys = len(testGraph.parser.unordered_map)
 # keys_1: List[str] = []
@@ -38,6 +52,7 @@ is_running: bool = True
 # t2.join()
 # t3.join()
 
+
 print("Welcome to QuestSeeker!")
 mode: str = ""
 
@@ -61,9 +76,8 @@ while is_running:
                 title = input()
 
                 if title != "quit":
-                    if testGraph.create_minigraph(title):
-                        is_searching = False
-                        print(f'{testGraph.adj_list[title]}')
+                    if title in full_graph.adj_list.keys():
+                        print(f'{full_graph.adj_list[title]}')
                     else:
                         print(f"\"{title}\" not found in Steam Store. Please search for another game:")
                 else:

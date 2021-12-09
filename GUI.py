@@ -43,9 +43,10 @@ def find():
         # a_file = open("full_graph.pkl", "wb")
         # pickle.dump(full_graph.adj_list, a_file)
         # a_file.close()
-        a_file = open("full_graph.pkl", "rb")
+        a_file = open("full_graph1.pkl", "rb")
         full_graph = pickle.load(a_file)
         a_file.close()
+        print(full_graph[modify.get()])
         top_games: list
         top_games = full_graph[searched_game.name]
         for edge in top_games:
