@@ -98,7 +98,7 @@ button.pack(side=RIGHT)
 Frm.pack(side=LEFT)
 # Dropdown menu options
 options = [
-    "Dijkstra's", "Dijkstra's with edge list", "Search"
+    "Dijkstra's with adjacency list", "Dijkstra's with edge list", "Search"
 ]
 # datatype of menu text
 clicked = StringVar()
