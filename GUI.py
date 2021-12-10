@@ -6,7 +6,6 @@ from tkinter import *
 
 import Graphs
 
-
 def show():
     text.delete('1.0', END)
     label.config(text=clicked.get())
@@ -18,7 +17,7 @@ def show():
         Dijkstras = False
         Dijkstras_edge = False
         text.insert(tk.END, "Enter a game into the search bar to see the top 10 closest matches")
-    elif clicked.get() == "Dijkstra's":
+    elif clicked.get() == "Dijkstra's with adjacency list":
         search = False
         Dijkstras = True
         Dijkstras_edge = False
