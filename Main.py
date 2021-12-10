@@ -19,6 +19,7 @@ a_file.close()
 # pickle.dump(full_graph.adj_list, a_file)
 # a_file.close()
 
+
 print("Welcome to QuestSeeker!")
 mode: str = ""
 

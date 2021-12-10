@@ -1,6 +1,4 @@
 import CSVReader
-import Game
-import heapq
 import time
 from heapq import heappush, heappop
 from typing import Dict, List
