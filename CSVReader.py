@@ -13,7 +13,7 @@ class CSVReader:
     def read_file(self):
         with open(self.file, encoding='utf-8') as csv_file:
             csv_reader = csv.DictReader(csv_file, delimiter=',')
-            for row in csv_reader:  # each row is (value [delim] value [delim] etc...)
+            for row in csv_reader:
                 row["categories"] = row["categories"].split(';')
                 row["developer"] = row["developer"].split(';')
                 row["genres"] = row["genres"].split(';')

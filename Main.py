@@ -1,11 +1,5 @@
-import CSVReader
-import Game
 import Graphs
 import pickle
-import threading
-from Game import Game
-from typing import List
-from CSVReader import CSVReader
 
 
 
@@ -15,6 +9,7 @@ full_graph = Graphs.Adjlist()
 full_graph.adj_list = pickle.load(a_file)
 a_file.close()
 
+# CREATING GRAPH AND EXPORTING TO PICKLE:
 # full_graph.create_graph()
 # a_file = open("full_graph1.pkl", "wb")
 # pickle.dump(full_graph.adj_list, a_file)
