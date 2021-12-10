@@ -256,24 +256,78 @@ class Adjlist:
                     curr = predecessors[curr]
                     shortest_path.append(curr)
                 if curr == "-1":
-                    print(f'No possible path between {src} and {dest}')
+                    return "No possible path between " + src + " and " + dest
                 else:
-                    print(shortest_path[::-1])
-                    print(f'Weight of path = {distances[dest]}')
+                    shortest_path = shortest_path[::-1]
+                    shortest_path.append("Weight of path = " + str(distances[dest]))
                     end_time = time.time()
-                    print(f'Took {end_time - start_time} seconds')
+                    _time = end_time - start_time
+                    shortest_path.append("Runtime: " + str(_time) + " seconds")
+                    return shortest_path
             else:
-                print ("unsuccessful")
+                return "Unsuccessful"
         else:
-            print("unsuccessful")
+            return "Unsuccessful"
 
-    def bellman_ford(self, src: str, dest: str):
+    def create_edge_list(self):
+        edge_list: list[tuple] = []
+        for src in self.adj_list.keys():
+            for dest in self.adj_list[src]:
+                _tuple = (src, dest[1], dest[0])
+                edge_list.append(_tuple)
+        return edge_list
+
+    def dijkstra_edge_list(self, src: str, dest: str):
+        start_time = time.time()
         if src in self.parser.unordered_map.keys() and dest in self.parser.unordered_map.keys():
-            distance: Dict[str, float] = {}
-            for key in self.parser.unordered_map.keys():
-                distance[key] = float("inf")
-            distance[src] = 0
-        predecessor: Dict[str, str] = {}
-        for key in self.parser.unordered_map.keys():
-            predecessor[key] = "-1"
+            edge_list: list[tuple] = []
+            edge_list = self.create_edge_list()
+            if src != dest:
+                shortest_path = []  # shortest path, will return this
+
+                # initialize map of distances
+                distances: Dict[str, float] = {}
+                for key in self.parser.unordered_map.keys():
+                    distances[key] = float("inf")
+                distances[src] = 0
+
+                # initialize map of previous vertices
+                predecessors: Dict[str, str] = {}
+                for key in self.parser.unordered_map.keys():
+                    predecessors[key] = "-1"
+
+                # initialize minHeap priority queue
+                pq: List[tuple] = []
+                heappush(pq, tuple((0, src)))
+
+                while len(pq) != 0:
+                    curr_vertex = heappop(pq)[1]
+
+                    for edge in edge_list:
+                        if edge[0] == curr_vertex:
+                            w: float = edge[2]
+                            neighbor_name: str = edge[1]
+                            if distances[curr_vertex] + w < distances[neighbor_name]:
+                                distances[neighbor_name] = distances[curr_vertex] + w
+                                predecessors[neighbor_name] = curr_vertex
+                                heappush(pq, tuple((distances[neighbor_name], neighbor_name)))
+
+                curr = dest
+                shortest_path.append(curr)
+                while curr != src and curr != "-1":
+                    curr = predecessors[curr]
+                    shortest_path.append(curr)
+                if curr == "-1":
+                    return "No possible path between " + src + " and " + dest
+                else:
+                    shortest_path = shortest_path[::-1]
+                    shortest_path.append("Weight of path = " + str(distances[dest]))
+                    end_time = time.time()
+                    _time = end_time - start_time
+                    shortest_path.append("Runtime: " + str(_time) + " seconds")
+                    return shortest_path
+            else:
+                return "Unsuccessful"
+        else:
+            return "Unsuccessful"
 

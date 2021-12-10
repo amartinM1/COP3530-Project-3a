@@ -11,57 +11,72 @@ def show():
     text.delete('1.0', END)
     label.config(text=clicked.get())
     global search
-    global Dikstras
-    global Bellman_Ford
+    global Dijkstras
+    global Dijkstras_edge
     if clicked.get() == "Search":
         search = True
-        Dikstras = False
-        Bellman_Ford = False
+        Dijkstras = False
+        Dijkstras_edge = False
         text.insert(tk.END, "Enter a game into the search bar to see the top 10 closest matches")
-    elif clicked.get() == "Dikstra's":
+    elif clicked.get() == "Dijkstra's":
         search = False
-        Dikstras = True
-        Bellman_Ford = False
-        text.insert(tk.END, "To run Dikstra's algorithm, please search two games separated by a comma")
-    elif clicked.get() == "Bellman-Ford":
+        Dijkstras = True
+        Dijkstras_edge = False
+        text.insert(tk.END, "To run Dijkstra's algorithm, please search two games separated by a comma in the form of "
+                            "source, destination")
+    elif clicked.get() == "Dijkstra's with edge list":
         search = False
-        Dikstras = False
-        Bellman_Ford = True
-        text.insert(tk.END, "To run Bellman-Ford's algorithm, please search two games separated by a comma")
+        Dijkstras = False
+        Dijkstras_edge = True
+        text.insert(tk.END, "To run Dijkstra's algorithm for an edge list, please search two games separated by a "
+                            "comma in the form of source, destination")
 
 
 def find():
     text.delete('1.0', END)
     global search
-    global Dikstras
-    global Bellman_Ford
+    global Dijkstras
+    global Dijkstras_edge
+    a_file = open("full_graph1.pkl", "rb")
+    full_graph = Graphs.Adjlist()
+    full_graph.adj_list = pickle.load(a_file)
+    a_file.close()
     if search is True:
         global searched_game
         searched_title = modify.get()
-
-        a_file = open("full_graph1.pkl", "rb")
-        full_graph = Graphs.Adjlist()
-        full_graph.adj_list = pickle.load(a_file)
-        a_file.close()
-
-        print(full_graph.adj_list[searched_title])
-
-        top_games: list
-        top_games = full_graph.adj_list[searched_title]
-        for edge in top_games:
-            text.insert(tk.END, edge[1] + "  [weight = ")
-            text.insert(tk.END, edge[0])
-            text.insert(tk.END, ']\n\n')
-    elif Dikstras is True:
-        text.insert(tk.END, "Running Dikstra's Algorithm")
-    elif Bellman_Ford is True:
-        text.insert(tk.END, "Running Bellman-Ford's Algorithm")
-    # elif Bellman_Ford is True
+        if searched_title in reader.unordered_map.keys():
+            top_games: list
+            top_games = full_graph.adj_list[searched_title]
+            for edge in top_games:
+                text.insert(tk.END, edge[1] + "  [weight = ")
+                text.insert(tk.END, edge[0])
+                text.insert(tk.END, ']\n\n')
+        else:
+            text.insert(tk.END, "Error: Game not found in our database. Make sure that your search matches the game "
+                                "title exactly")
+    elif Dijkstras is True:
+        searched_titles: str
+        searched_titles_split: list
+        searched_titles = modify.get()
+        searched_titles_split = searched_titles.split(', ')
+        string_list = full_graph.dijkstra(searched_titles_split[0], searched_titles_split[1])
+        for string in string_list:
+            text.insert(tk.END, string)
+            text.insert(tk.END, '\n\n')
+    elif Dijkstras_edge is True:
+        searched_titles: str
+        searched_titles_split: list
+        searched_titles = modify.get()
+        searched_titles_split = searched_titles.split(', ')
+        string_list = full_graph.dijkstra_edge_list(searched_titles_split[0], searched_titles_split[1])
+        for string in string_list:
+            text.insert(tk.END, string)
+            text.insert(tk.END, '\n\n')
 
 
 search = True
-Dikstras = False
-Bellman_Ford = False
+Dijkstras = False
+Dijkstras_edge = False
 # Main GUI object
 root = tk.Tk()
 Frm = Frame(root)
@@ -77,7 +92,7 @@ button.pack(side=RIGHT)
 Frm.pack(side=LEFT)
 # Dropdown menu options
 options = [
-    "Dikstra's", "Bellman-Ford", "Search"
+    "Dijkstra's", "Dijkstra's with edge list", "Search"
 ]
 # datatype of menu text
 clicked = StringVar()

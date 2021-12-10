@@ -14,6 +14,7 @@ a_file = open("full_graph1.pkl", "rb")
 full_graph = Graphs.Adjlist()
 full_graph.adj_list = pickle.load(a_file)
 a_file.close()
+
 # full_graph.create_graph()
 # a_file = open("full_graph1.pkl", "wb")
 # pickle.dump(full_graph.adj_list, a_file)
@@ -52,7 +53,7 @@ while is_running:
                     is_running = False
 
         elif mode == "shortest path":
-            print("Type 1 to use Dijkstra's Algorithm. Type 2 to use the Bellman-Ford Algorithm:")
+            print("Type 1 to use Dijkstra's Algorithm via Adjacency List. Type 2 to use Dijkstra's Algorithm via Edge List:")
 
             response = input()
 
@@ -85,7 +86,25 @@ while is_running:
                     full_graph.dijkstra(src, dest)
 
                 if mode == "Bellman-Ford":
-                    print("We're working on implementing Bellman-Ford. Check back soon!\n")
+                    print("Please input source game:")
+
+                    response = input()
+                    src: str = response
+
+                    if response == "quit":
+                        is_searching = False
+                        break
+
+                    print("Please input destination game:")
+
+                    if response == "quit":
+                        is_searching = False
+                        break
+
+                    response: str = input()
+                    dest: str = response
+
+                    full_graph.dijkstra_edge_list(src, dest)
             else:
                 is_running = False
 
