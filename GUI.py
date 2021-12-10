@@ -60,18 +60,24 @@ def find():
         searched_titles = modify.get()
         searched_titles_split = searched_titles.split(', ')
         string_list = full_graph.dijkstra(searched_titles_split[0], searched_titles_split[1])
-        for string in string_list:
-            text.insert(tk.END, string)
-            text.insert(tk.END, '\n\n')
+        if "No possible path" in string_list or "Unsuccessful" == string_list:
+            text.insert(tk.END, string_list)
+        else:
+            for string in string_list:
+                text.insert(tk.END, string)
+                text.insert(tk.END, '\n\n')
     elif Dijkstras_edge is True:
         searched_titles: str
         searched_titles_split: list
         searched_titles = modify.get()
         searched_titles_split = searched_titles.split(', ')
         string_list = full_graph.dijkstra_edge_list(searched_titles_split[0], searched_titles_split[1])
-        for string in string_list:
-            text.insert(tk.END, string)
-            text.insert(tk.END, '\n\n')
+        if "No possible path" in string_list or "Unsuccessful" == string_list:
+            text.insert(tk.END, string_list)
+        else:
+            for string in string_list:
+                text.insert(tk.END, string)
+                text.insert(tk.END, '\n\n')
 
 
 search = True
